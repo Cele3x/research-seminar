@@ -12666,7 +12666,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 6c5547959dbbed94b97243157462bb98,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -26.73
+      value: -28.51
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 6c5547959dbbed94b97243157462bb98,
         type: 3}
@@ -16756,7 +16756,7 @@ MonoBehaviour:
   playerHitCountField: {fileID: 675164673}
   timeLeftField: {fileID: 1957442308}
   maxLevelTime: 10
-  gameoverOverlay: {fileID: 0}
+  gameoverOverlay: {fileID: 1322089379}
 --- !u!4 &1836510598
 Transform:
   m_ObjectHideFlags: 0

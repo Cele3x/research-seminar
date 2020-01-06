@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     public int playerScore = 0;
     public int beeScore = 0;
     public int playerHitCount = 0;
+    public float beeSpeed = 10f; 
 
 
     [SerializeField] private TMP_Text playerHitCountField;

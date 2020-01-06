@@ -59,6 +59,7 @@ public class BeeController : MonoBehaviour
         _beeAnimator.SetBool(Idle, false);
         _beeAnimator.SetBool(Move, true);
         _navMeshAgent.SetDestination(target.position);
+        _navMeshAgent.speed = _gameController.beeSpeed; 
     }
 
     private void  AttackTarget()
