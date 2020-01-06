@@ -20,6 +20,7 @@ public class BeeController : MonoBehaviour
     private static readonly int Idle = Animator.StringToHash("idle");
     private static readonly int Die = Animator.StringToHash("die");
 
+
     void Start()
     {
         _gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
@@ -77,8 +78,9 @@ public class BeeController : MonoBehaviour
 
     private void GetAway()
     {
+        _gameController.playerHit();
+
         _audioSource.Stop();
-        transform.position += Vector3.up * Time.deltaTime;
-        Destroy(gameObject, 8.0f);
+        Destroy(gameObject);
     }
 }
