@@ -52,7 +52,7 @@ public class GameController : MonoBehaviour
     void adjustDifficulty()
     {
         Debug.Log("Adjusting dif now");
-        //Starts at 4sec intervall between spawns, ends at with a level runtime of 120sec
+        //Starts at 4sec intervall between spawns, ends at 0.92sec with a level runtime of 120sec
         if (timeBetweenSpawns > 1.0f)
         {
             timeBetweenSpawns = timeBetweenSpawns * 0.9f;
