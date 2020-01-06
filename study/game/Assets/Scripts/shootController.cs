@@ -20,7 +20,7 @@ public class shootController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Pressed Mouse");
+
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -29,11 +29,9 @@ public class shootController : MonoBehaviour
             {
                 if (hit.collider.gameObject.tag == "Bee")
                 {
-                    Debug.Log(hit.collider.gameObject.tag);
                     Debug.DrawRay(transform.position, hit.collider.gameObject.transform.position);
                     Destroy(hit.collider.gameObject);
                     _gameController.PlayerScores();
-                    Debug.Log("Current Playerscore; "+ _gameController.beeScore);
                     scoreCounter.SetText(_gameController.playerScore.ToString());
                 }
             }
