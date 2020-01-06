@@ -25,7 +25,8 @@ public class GameController : MonoBehaviour
 
     private int timeLeftinLevel;
 
-    private float timeBetweenSpawns = 4.0f; 
+    private float timeBetweenSpawns = 4.0f;
+    [SerializeField]private float SpawnsDecayFactor = 0.9f; 
     private void Awake()
     {
 
@@ -55,7 +56,7 @@ public class GameController : MonoBehaviour
         //Starts at 4sec intervall between spawns, ends at 0.92sec with a level runtime of 120sec
         if (timeBetweenSpawns > 1.0f)
         {
-            timeBetweenSpawns = timeBetweenSpawns * 0.9f;
+            timeBetweenSpawns = timeBetweenSpawns * SpawnsDecayFactor;
         }
         Debug.Log(timeBetweenSpawns);
 
