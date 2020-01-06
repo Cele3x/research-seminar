@@ -18,8 +18,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private int maxLevelTime;
     [SerializeField] private GameObject gameoverOverlay; 
 
-    private readonly Vector3[] _spawnPoints = new [] { new Vector3(-10, 0, 0), new Vector3(-10, 0, -40), 
-                                                       new Vector3(10, 0, -20), new Vector3(-30, 0, -20)};
+    [SerializeField]private  Transform[] _spawnPoints;
 
     private int _currentSpawnIndex = 0;
 
@@ -27,7 +26,7 @@ public class GameController : MonoBehaviour
     
     void Start()
     {
-        GameObject bee = Instantiate(beePrefab, _spawnPoints[_currentSpawnIndex++], Quaternion.identity);
+        GameObject bee = Instantiate(beePrefab, new Vector3(_spawnPoints[0].position.x,_spawnPoints[0].position.y, _spawnPoints[0].position.z), Quaternion.identity);
         bee.GetComponent<BeeController>().target = player.transform;
 
         timeLeftField.SetText(maxLevelTime.ToString());
@@ -36,14 +35,14 @@ public class GameController : MonoBehaviour
     public void BeeScores()
     {
         beeScore += 1;
-        GameObject bee = Instantiate(beePrefab, _spawnPoints[_currentSpawnIndex++ % _spawnPoints.Length], Quaternion.identity);
+        GameObject bee = Instantiate(beePrefab, new Vector3(_spawnPoints[0].position.x, _spawnPoints[0].position.y, _spawnPoints[0].position.z), Quaternion.identity);
         bee.GetComponent<BeeController>().target = player.transform;
     }
 
     public void PlayerScores()
     {
         playerScore += 1;
-        GameObject bee = Instantiate(beePrefab, _spawnPoints[_currentSpawnIndex++ % _spawnPoints.Length], Quaternion.identity);
+        GameObject bee = Instantiate(beePrefab, new Vector3(_spawnPoints[0].position.x, _spawnPoints[0].position.y, _spawnPoints[0].position.z), Quaternion.identity);
         bee.GetComponent<BeeController>().target = player.transform;
     }
 

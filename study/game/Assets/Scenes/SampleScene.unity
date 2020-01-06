@@ -16753,6 +16753,7 @@ MonoBehaviour:
   playerScore: 0
   beeScore: 0
   playerHitCount: 0
+  beeSpeed: 10.15
   playerHitCountField: {fileID: 675164673}
   timeLeftField: {fileID: 1957442308}
   maxLevelTime: 10
