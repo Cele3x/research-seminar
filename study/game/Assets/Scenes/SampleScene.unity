@@ -16894,6 +16894,7 @@ GameObject:
   - component: {fileID: 1836510598}
   - component: {fileID: 1836510597}
   - component: {fileID: 1836510599}
+  - component: {fileID: 1836510600}
   m_Layer: 0
   m_Name: GameController
   m_TagString: GameController
@@ -16921,6 +16922,8 @@ MonoBehaviour:
   beeScore: 0
   playerHitCount: 0
   levelString: 
+  objectTimeAlive: []
+  logger: {fileID: 1836510600}
   playerScoreText: {fileID: 744660820}
   playerHitCountField: {fileID: 675164673}
   timeLeftField: {fileID: 1957442308}
@@ -16964,6 +16967,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreCounter: {fileID: 1875529624}
+--- !u!114 &1836510600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1836510596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d73ce421093ec174d90927a571823e54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path: 
 --- !u!4 &1838199536 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 5b74e216388116d4c82c4d0c8a53c0d3,

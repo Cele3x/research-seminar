@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
     [HideInInspector] public string levelString;
     public List<float> objectTimeAlive; 
 
-
+    [SerializeField] public CSVLogger logger;
     [SerializeField] private TMP_Text playerScoreText; 
     [SerializeField] private TMP_Text playerHitCountField;
     [SerializeField] private TMP_Text timeLeftField;
@@ -29,7 +29,7 @@ public class GameController : MonoBehaviour
     [SerializeField] GameObject beePrefab;
     [SerializeField] GameObject ballonPrefab; 
  
-
+    private int _beeId = 0;
 
     private int _currentSpawnIndex = 0;
 
@@ -118,6 +118,7 @@ public class GameController : MonoBehaviour
                 _spawnPoints[spawnIndex].position.z),
                 Quaternion.identity);
             bee.GetComponent<BeeController>().target = player.transform;
+            bee.GetComponent<BeeController>().id = _beeId;
         }
 
         else
@@ -128,10 +129,10 @@ public class GameController : MonoBehaviour
                _spawnPoints[spawnIndex].position.z + 0.05f),
                Quaternion.identity);
             bee.GetComponent<BeeController>().target = player.transform;
-
+            bee.GetComponent<BeeController>().id = _beeId;
         }
 
-        
+        _beeId++;
 
         if(_currentSpawnIndex >= _spawnPoints.Length)
         {
@@ -187,6 +188,10 @@ public class GameController : MonoBehaviour
      
     }
 
+    public void OnApplicationQuit()
+    {
+        logger.SaveToFile();
+    }
 
     public void updateTimeField()
     {

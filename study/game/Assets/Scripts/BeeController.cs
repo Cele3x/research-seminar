@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class BeeController : MonoBehaviour
 {
     public Transform target;
+    public int id;
 
     private GameController _gameController;
     private NavMeshAgent _navMeshAgent;
@@ -15,6 +16,8 @@ public class BeeController : MonoBehaviour
     private float _distanceToTarget = Mathf.Infinity;
     private Boolean _isSuccessful;
     private float initTime; 
+
+    private CSVLogger _logger;
 
     private static readonly int Attack = Animator.StringToHash("attack");
     private static readonly int Move = Animator.StringToHash("move");
@@ -25,6 +28,7 @@ public class BeeController : MonoBehaviour
     void Start()
     {
         _gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
+        _logger = GameObject.FindWithTag("GameController").GetComponent<CSVLogger>();
         if (!_gameController.ballonModeEnabled)
         {
             _beeAnimator = GetComponent<Animator>();
@@ -38,6 +42,8 @@ public class BeeController : MonoBehaviour
         }
 
         initTime = Time.timeSinceLevelLoad; 
+        Debug.Log(id);
+        _logger.BeeSpawn(id);
     }
     
     void Update()
@@ -104,7 +110,7 @@ public class BeeController : MonoBehaviour
             _gameController.BeeScores();
             _navMeshAgent.enabled = false;
         }
-    
+        _logger.BeeDeath(id);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -113,6 +119,8 @@ public class BeeController : MonoBehaviour
         _gameController.BeeScores();
         _navMeshAgent.enabled = false;
         _gameController.objectTimeAlive.Add((Time.timeSinceLevelLoad - initTime));
+
+        _logger.BeeDeath(id);
     }
 
 
@@ -132,5 +140,6 @@ public class BeeController : MonoBehaviour
         }
 
         _gameController.objectTimeAlive.Add((Time.timeSinceLevelLoad - initTime));
+        _logger.BeeHit(id);
     }
 }
