@@ -5,21 +5,30 @@ using TMPro;
 using System.IO; 
 public class GameController : MonoBehaviour
 {
-    public GameObject player;
-    public GameObject beePrefab;
-    public int playerScore = 0;
-    public int beeScore = 0;
-    public int playerHitCount = 0;
-    public float beeSpeed = 10f;
-    public string levelString;
+    [HideInInspector] public GameObject player;
+    public GameObject objectToSpawn;
+
+    public bool ballonModeEnabled = false;
+
+    public float objectSpeed = 10f;
+
+    [HideInInspector] public int playerScore = 0;
+    [HideInInspector] public int beeScore = 0;
+    [HideInInspector] public int playerHitCount = 0;
+    [HideInInspector] public string levelString;
 
 
+    [SerializeField] private TMP_Text playerScoreText; 
     [SerializeField] private TMP_Text playerHitCountField;
     [SerializeField] private TMP_Text timeLeftField;
     [SerializeField] private int maxLevelTime;
     [SerializeField] private GameObject gameoverOverlay; 
 
-    [SerializeField]private  Transform[] _spawnPoints;
+    [SerializeField] private  Transform[] _spawnPoints;
+    [SerializeField] GameObject beePrefab;
+    [SerializeField] GameObject ballonPrefab; 
+ 
+
 
     private int _currentSpawnIndex = 0;
 
@@ -38,7 +47,20 @@ public class GameController : MonoBehaviour
     }
     void Start()
     {
-        beeSpawner();
+        if(ballonModeEnabled)
+        {
+            objectToSpawn = ballonPrefab;
+            playerScoreText.SetText("Ballons killed:");
+            beeSpawner();
+
+        }
+        else
+        {
+            objectToSpawn = beePrefab;
+            playerScoreText.SetText("Bees refreshed:");
+            beeSpawner();
+        }
+
 
         //Starting Beespawn
         StartCoroutine("beeSpawnerCoHo");
@@ -87,13 +109,30 @@ public class GameController : MonoBehaviour
 
     public void spawnBee(int spawnIndex)
     {
-    
-        GameObject bee = Instantiate(beePrefab, new Vector3(
-            _spawnPoints[spawnIndex].position.x, 
-            _spawnPoints[spawnIndex].position.y,
-            _spawnPoints[spawnIndex].position.z), 
-            Quaternion.identity);
-        bee.GetComponent<BeeController>().target = player.transform;
+        if (!ballonModeEnabled)
+        {
+
+
+            GameObject bee = Instantiate(objectToSpawn, new Vector3(
+                _spawnPoints[spawnIndex].position.x,
+                _spawnPoints[spawnIndex].position.y,
+                _spawnPoints[spawnIndex].position.z),
+                Quaternion.identity);
+            bee.GetComponent<BeeController>().target = player.transform;
+        }
+
+        else
+        {
+            GameObject bee = Instantiate(objectToSpawn, new Vector3(
+               _spawnPoints[spawnIndex].position.x,
+               _spawnPoints[spawnIndex].position.y,
+               _spawnPoints[spawnIndex].position.z + 0.05f),
+               Quaternion.identity);
+            bee.GetComponent<BeeController>().target = player.transform;
+
+        }
+
+        
 
         if(_currentSpawnIndex >= _spawnPoints.Length)
         {

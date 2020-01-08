@@ -24,10 +24,17 @@ public class BeeController : MonoBehaviour
     void Start()
     {
         _gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
-        _beeAnimator = GetComponent<Animator>();
-        _navMeshAgent = GetComponent<NavMeshAgent>();
-        _audioSource = GetComponent<AudioSource>();
-        _beeAnimator.SetBool(Idle, true);
+        if (!_gameController.ballonModeEnabled)
+        {
+            _beeAnimator = GetComponent<Animator>();
+            _navMeshAgent = GetComponent<NavMeshAgent>();
+            _audioSource = GetComponent<AudioSource>();
+            _beeAnimator.SetBool(Idle, true);
+        }
+        else
+        {
+            _navMeshAgent = GetComponent<NavMeshAgent>();
+        }
     }
     
     void Update()
@@ -52,36 +59,72 @@ public class BeeController : MonoBehaviour
 
     private void ChaseTarget()
     {
-        if (!_audioSource.isPlaying)
+        if (!_gameController.ballonModeEnabled)
         {
-            _audioSource.Play();
+            if (!_audioSource.isPlaying)
+            {
+                _audioSource.Play();
+            }
+            _beeAnimator.SetBool(Idle, false);
+            _beeAnimator.SetBool(Move, true);
+            _navMeshAgent.SetDestination(target.position);
+            _navMeshAgent.speed = _gameController.objectSpeed;
         }
-        _beeAnimator.SetBool(Idle, false);
-        _beeAnimator.SetBool(Move, true);
-        _navMeshAgent.SetDestination(target.position);
-        _navMeshAgent.speed = _gameController.beeSpeed; 
+        else
+        {
+            _navMeshAgent.SetDestination(target.position);
+            _navMeshAgent.speed = _gameController.objectSpeed;
+        }
     }
 
     private void  AttackTarget()
     {
-        _beeAnimator.SetBool(Move, false);
-        _beeAnimator.SetTrigger(Attack);
-        _beeAnimator.SetBool(Idle, true);
+        if (!_gameController.ballonModeEnabled)
+        {
+            _beeAnimator.SetBool(Move, false);
+            _beeAnimator.SetTrigger(Attack);
+            _beeAnimator.SetBool(Idle, true);
+        }
+        else
+        {
+            
+        }
     }
 
     public void CollisionFromChild(Collider other)
     {
-        if (_isSuccessful) return;
+        if (!_gameController.ballonModeEnabled)
+        {
+
+            if (_isSuccessful) return;
+            _isSuccessful = true;
+            _gameController.BeeScores();
+            _navMeshAgent.enabled = false;
+        }
+    
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
         _isSuccessful = true;
         _gameController.BeeScores();
-        _navMeshAgent.enabled = false;
+        _navMeshAgent.enabled = false; 
     }
+
+
 
     private void GetAway()
     {
-        _gameController.playerHit();
-
-        _audioSource.Stop();
-        Destroy(gameObject);
+        if (!_gameController.ballonModeEnabled)
+        {
+            _gameController.playerHit();
+            _audioSource.Stop();
+            Destroy(gameObject);
+        }
+        else
+        {
+            _gameController.playerHit();
+            Destroy(gameObject);
+        }
     }
 }

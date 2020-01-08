@@ -34,6 +34,14 @@ public class shootController : MonoBehaviour
                     _gameController.PlayerScores();
                     scoreCounter.SetText(_gameController.playerScore.ToString());
                 }
+
+                if (hit.collider.gameObject.tag == "Ballon")
+                {
+                    Debug.DrawRay(transform.position, hit.collider.gameObject.transform.position);
+                    Destroy(hit.collider.gameObject);
+                    _gameController.PlayerScores();
+                    scoreCounter.SetText(_gameController.playerScore.ToString());
+                }
             }
         }   
 
