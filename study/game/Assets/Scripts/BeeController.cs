@@ -14,6 +14,7 @@ public class BeeController : MonoBehaviour
     private AudioSource _audioSource;
     private float _distanceToTarget = Mathf.Infinity;
     private Boolean _isSuccessful;
+    private float initTime; 
 
     private static readonly int Attack = Animator.StringToHash("attack");
     private static readonly int Move = Animator.StringToHash("move");
@@ -35,6 +36,8 @@ public class BeeController : MonoBehaviour
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();
         }
+
+        initTime = Time.timeSinceLevelLoad; 
     }
     
     void Update()
@@ -108,12 +111,13 @@ public class BeeController : MonoBehaviour
     {
         _isSuccessful = true;
         _gameController.BeeScores();
-        _navMeshAgent.enabled = false; 
+        _navMeshAgent.enabled = false;
+        _gameController.objectTimeAlive.Add((Time.timeSinceLevelLoad - initTime));
     }
 
 
 
-    private void GetAway()
+    public void GetAway()
     {
         if (!_gameController.ballonModeEnabled)
         {
@@ -126,5 +130,7 @@ public class BeeController : MonoBehaviour
             _gameController.playerHit();
             Destroy(gameObject);
         }
+
+        _gameController.objectTimeAlive.Add((Time.timeSinceLevelLoad - initTime));
     }
 }

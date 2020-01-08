@@ -30,7 +30,11 @@ public class shootController : MonoBehaviour
                 if (hit.collider.gameObject.tag == "Bee")
                 {
                     Debug.DrawRay(transform.position, hit.collider.gameObject.transform.position);
-                    Destroy(hit.collider.gameObject);
+                    BeeController currentBeeController =  hit.collider.gameObject.GetComponent<BeeController>();
+                    currentBeeController.GetAway();
+
+                    Destroy(currentBeeController);
+                    
                     _gameController.PlayerScores();
                     scoreCounter.SetText(_gameController.playerScore.ToString());
                 }
@@ -38,7 +42,11 @@ public class shootController : MonoBehaviour
                 if (hit.collider.gameObject.tag == "Ballon")
                 {
                     Debug.DrawRay(transform.position, hit.collider.gameObject.transform.position);
-                    Destroy(hit.collider.gameObject);
+                    BeeController currentBeeController = hit.collider.gameObject.GetComponent<BeeController>();
+                    currentBeeController.GetAway();
+
+                    Destroy(currentBeeController);
+
                     _gameController.PlayerScores();
                     scoreCounter.SetText(_gameController.playerScore.ToString());
                 }
