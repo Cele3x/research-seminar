@@ -29,6 +29,8 @@ public class BeeController : MonoBehaviour
     {
         _gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
         _logger = GameObject.FindWithTag("GameController").GetComponent<CSVLogger>();
+
+        target = GameObject.FindWithTag("Body").GetComponent<Transform>();
         if (!_gameController.ballonModeEnabled)
         {
             _beeAnimator = GetComponent<Animator>();
@@ -42,7 +44,6 @@ public class BeeController : MonoBehaviour
         }
 
         initTime = Time.timeSinceLevelLoad; 
-        Debug.Log(id);
         _logger.BeeSpawn(id);
     }
     
@@ -55,11 +56,13 @@ public class BeeController : MonoBehaviour
         else
         {
             _distanceToTarget = Vector3.Distance(target.position, transform.position);
+            Debug.Log(_distanceToTarget);
             if (_distanceToTarget >= _navMeshAgent.stoppingDistance)
             {
                 ChaseTarget();
             } 
-            else if (_distanceToTarget <= _navMeshAgent.stoppingDistance)
+            //else if (_distanceToTarget <= _navMeshAgent.stoppingDistance)
+            else if (_distanceToTarget <= 3)
             {
                 AttackTarget();
             }
@@ -113,15 +116,28 @@ public class BeeController : MonoBehaviour
         _logger.BeeDeath(id);
     }
 
-    public void OnTriggerEnter(Collider other)
-    {
-        _isSuccessful = true;
-        _gameController.BeeScores();
-        _navMeshAgent.enabled = false;
-        _gameController.objectTimeAlive.Add((Time.timeSinceLevelLoad - initTime));
 
-        _logger.BeeDeath(id);
+    public void OnCollisionEnter(Collision collision)
+    {
+        if(collision.other.gameObject.tag == "Hand")
+        {
+            _logger.BeeDeath(id);
+            Destroy(this.gameObject);
+        }
+
+        if(collision.other.gameObject.tag == "Body")
+        {
+            _logger.BeeHit(id);
+            Destroy(this.gameObject.GetComponent<Rigidbody>());
+            Destroy(this.gameObject, 0.5f);
+            GetAway();
+
+        }
     }
+
+
+
+
 
 
 
@@ -129,17 +145,22 @@ public class BeeController : MonoBehaviour
     {
         if (!_gameController.ballonModeEnabled)
         {
+            
             _gameController.playerHit();
             _audioSource.Stop();
-            Destroy(gameObject);
+         
+            transform.position += Vector3.up * Time.deltaTime;
+            Destroy(gameObject, 8.0f);
+
+            //Destroy(gameObject);
         }
         else
         {
             _gameController.playerHit();
-            Destroy(gameObject);
+            Destroy(this.gameObject);
         }
 
-        _gameController.objectTimeAlive.Add((Time.timeSinceLevelLoad - initTime));
-        _logger.BeeHit(id);
+ 
+        
     }
 }

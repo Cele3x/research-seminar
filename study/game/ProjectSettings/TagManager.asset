@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Bee
   - Ballon
+  - Hand
+  - Body
   layers:
   - Default
   - TransparentFX

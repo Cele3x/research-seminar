@@ -5,7 +5,7 @@ using TMPro;
 using System.IO; 
 public class GameController : MonoBehaviour
 {
-    [HideInInspector] public GameObject player;
+    public GameObject player;
     public GameObject objectToSpawn;
 
     public bool ballonModeEnabled = false;
@@ -143,7 +143,6 @@ public class GameController : MonoBehaviour
             _currentSpawnIndex = _currentSpawnIndex + 1;
         }
 
-        Debug.Log(objectTimeAlive.Count);
         foreach (float item in objectTimeAlive)
         {
             Debug.Log(item);
