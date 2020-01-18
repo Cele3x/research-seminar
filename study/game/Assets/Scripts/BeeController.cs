@@ -33,10 +33,8 @@ public class BeeController : MonoBehaviour
         target = GameObject.FindWithTag("Body").GetComponent<Transform>();
         if (!_gameController.ballonModeEnabled)
         {
-            _beeAnimator = GetComponent<Animator>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
-            _audioSource = GetComponent<AudioSource>();
-            _beeAnimator.SetBool(Idle, true);
+
         }
         else
         {
@@ -56,7 +54,6 @@ public class BeeController : MonoBehaviour
         else
         {
             _distanceToTarget = Vector3.Distance(target.position, transform.position);
-            Debug.Log(_distanceToTarget);
             if (_distanceToTarget >= _navMeshAgent.stoppingDistance)
             {
                 ChaseTarget();
@@ -73,12 +70,8 @@ public class BeeController : MonoBehaviour
     {
         if (!_gameController.ballonModeEnabled)
         {
-            if (!_audioSource.isPlaying)
-            {
-                _audioSource.Play();
-            }
-            _beeAnimator.SetBool(Idle, false);
-            _beeAnimator.SetBool(Move, true);
+     
+
             _navMeshAgent.SetDestination(target.position);
             _navMeshAgent.speed = _gameController.objectSpeed;
         }
@@ -93,9 +86,7 @@ public class BeeController : MonoBehaviour
     {
         if (!_gameController.ballonModeEnabled)
         {
-            _beeAnimator.SetBool(Move, false);
-            _beeAnimator.SetTrigger(Attack);
-            _beeAnimator.SetBool(Idle, true);
+  
         }
         else
         {
@@ -147,7 +138,7 @@ public class BeeController : MonoBehaviour
         {
             
             _gameController.playerHit();
-            _audioSource.Stop();
+
          
             transform.position += Vector3.up * Time.deltaTime;
             Destroy(gameObject, 8.0f);

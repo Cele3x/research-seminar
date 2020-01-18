@@ -96,7 +96,9 @@ public class GameController : MonoBehaviour
         string path = "Assets/Levelfiles/level_A.txt";
         StreamReader reader = new StreamReader(path);
         levelString = reader.ReadToEnd();
+        print(levelString);
         reader.Close();
+
 
     }
 
@@ -108,8 +110,10 @@ public class GameController : MonoBehaviour
 
     public void spawnBee(int spawnIndex)
     {
+        spawnIndex = spawnIndex - 1; 
         if (!ballonModeEnabled)
         {
+            print(spawnIndex);
 
 
             GameObject bee = Instantiate(objectToSpawn, new Vector3(
