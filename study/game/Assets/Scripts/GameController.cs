@@ -27,8 +27,10 @@ public class GameController : MonoBehaviour
 
     [SerializeField] private  Transform[] _spawnPoints;
     [SerializeField] GameObject beePrefab;
-    [SerializeField] GameObject ballonPrefab; 
- 
+    [SerializeField] GameObject ballonPrefab;
+
+    [SerializeField] float offsetSpawn; 
+
     private int _beeId = 0;
 
     private int _currentSpawnIndex = 0;
@@ -118,7 +120,7 @@ public class GameController : MonoBehaviour
 
             GameObject bee = Instantiate(objectToSpawn, new Vector3(
                 _spawnPoints[spawnIndex].position.x,
-                _spawnPoints[spawnIndex].position.y,
+                _spawnPoints[spawnIndex].position.y + offsetSpawn,
                 _spawnPoints[spawnIndex].position.z),
                 Quaternion.identity);
             bee.GetComponent<BeeController>().target = player.transform;
@@ -129,7 +131,7 @@ public class GameController : MonoBehaviour
         {
             GameObject bee = Instantiate(objectToSpawn, new Vector3(
                _spawnPoints[spawnIndex].position.x,
-               _spawnPoints[spawnIndex].position.y,
+               _spawnPoints[spawnIndex].position.y+offsetSpawn,
                _spawnPoints[spawnIndex].position.z + 0.05f),
                Quaternion.identity);
             bee.GetComponent<BeeController>().target = player.transform;

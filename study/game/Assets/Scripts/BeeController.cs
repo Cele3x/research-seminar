@@ -64,6 +64,8 @@ public class BeeController : MonoBehaviour
                 AttackTarget();
             }
         }
+
+        Debug.Log(this.transform.position.y);
     }
 
     private void ChaseTarget()
@@ -116,7 +118,7 @@ public class BeeController : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        if(collision.other.gameObject.tag == "Body")
+        if (collision.other.gameObject.tag == "Body")
         {
             _logger.BeeHit(id);
             Destroy(this.gameObject.GetComponent<Rigidbody>());
@@ -124,6 +126,15 @@ public class BeeController : MonoBehaviour
             GetAway();
 
         }
+
+
+    }
+
+    public void OnTriggerEnter(Collider collision)
+    {
+  
+     
+
     }
 
 
