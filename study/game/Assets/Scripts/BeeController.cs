@@ -64,8 +64,6 @@ public class BeeController : MonoBehaviour
                 AttackTarget();
             }
         }
-
-        Debug.Log(this.transform.position.y);
     }
 
     private void ChaseTarget()
