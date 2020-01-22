@@ -10,6 +10,7 @@ TagManager:
   - Ballon
   - Hand
   - Body
+  - Wasp
   layers:
   - Default
   - TransparentFX

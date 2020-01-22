@@ -292,7 +292,7 @@ GameObject:
   - component: {fileID: 1903097931659280645}
   m_Layer: 0
   m_Name: bloodwasp
-  m_TagString: Untagged
+  m_TagString: Wasp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -343,6 +343,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   id: 0
+  slapSound: {fileID: 8300000, guid: 312af3bd9efdcac4c8be974e2876802f, type: 3}
 --- !u!195 &1903097931659280702
 NavMeshAgent:
   m_ObjectHideFlags: 0

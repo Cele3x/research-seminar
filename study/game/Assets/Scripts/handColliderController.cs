@@ -1,16 +1,28 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class handColliderController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.tag == "Bee")
-        {
+    public AudioClip slapSound;
+    private AudioSource _audioSource;
 
-            Destroy(other.gameObject);
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.other.gameObject.tag == "Wasp")
+        {
+            PlaySlapSound();
         }
+    }
+    
+    public void PlaySlapSound()
+    {
+        _audioSource.PlayOneShot(slapSound, 1.0F);
     }
 }
