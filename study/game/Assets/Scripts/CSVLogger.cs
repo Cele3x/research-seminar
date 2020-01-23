@@ -21,18 +21,18 @@ public class CSVLogger : MonoBehaviour
 
     public void BeeSpawn(int id)
     {
-        csv_string.AppendLine($"{id}, 1, {Time.timeSinceLevelLoad}");
+        csv_string.AppendLine($"{id}; 1; {Time.timeSinceLevelLoad}");
     }
 
     public void BeeDeath(int id)
     {
 // csv_string.AppendLine($"{id}, 2, {DateTime.Now.ToString("HH:mm:ss:fff")}");
-        csv_string.AppendLine($"{id}, 2, {Time.timeSinceLevelLoad}");
+        csv_string.AppendLine($"{id}; 2; {Time.timeSinceLevelLoad}");
     }
 
     public void BeeHit(int id)
     {
-        csv_string.AppendLine($"{id}, 3, {Time.timeSinceLevelLoad}");
+        csv_string.AppendLine($"{id}; 3; {Time.timeSinceLevelLoad}");
     }
 
     public void SaveToFile()
