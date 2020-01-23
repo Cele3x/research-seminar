@@ -79,9 +79,10 @@ public class GameController : MonoBehaviour
     {
         
         //Starts at 4sec intervall between spawns, ends at 0.92sec with a level runtime of 120sec
-        if (timeBetweenSpawns > 1.0f)
+        if (timeBetweenSpawns > 1.6f)
         {
             timeBetweenSpawns = timeBetweenSpawns * SpawnsDecayFactor;
+            Debug.Log(timeBetweenSpawns);
         }
 
     }
@@ -115,8 +116,7 @@ public class GameController : MonoBehaviour
         spawnIndex = spawnIndex - 1; 
         if (!ballonModeEnabled)
         {
-            print(spawnIndex);
-
+       
 
             GameObject bee = Instantiate(objectToSpawn, new Vector3(
                 _spawnPoints[spawnIndex].position.x,
@@ -151,8 +151,8 @@ public class GameController : MonoBehaviour
 
         foreach (float item in objectTimeAlive)
         {
-            Debug.Log(item);
-                }
+// Debug.Log(item);
+        }
 
     }
 
