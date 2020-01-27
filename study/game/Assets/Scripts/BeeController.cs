@@ -25,6 +25,9 @@ public class BeeController : MonoBehaviour
     private static readonly int Die = Animator.StringToHash("die");
 
 
+    [SerializeField] private GameObject redFlash; 
+
+
     void Start()
     {
         _gameController = GameObject.FindWithTag("GameController").GetComponent<GameController>();
@@ -115,10 +118,12 @@ public class BeeController : MonoBehaviour
         {
             _logger.BeeHit(id, spawnTime);
             Destroy(this.gameObject.GetComponent<Rigidbody>());
+            _gameController.flashNow();
             Destroy(this.gameObject, 0.5f);
             GetAway();
         }
     }
+
 
     public void OnTriggerEnter(Collider collision)
     {

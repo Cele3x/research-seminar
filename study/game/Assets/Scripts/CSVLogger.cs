@@ -24,13 +24,13 @@ public class CSVLogger : MonoBehaviour
     public void BeeDied(int id, string spawnTime)
     {
         csv_string.AppendLine($"{probandId};{condition};{id}; 1; {spawnTime}; {DateTime.Now.ToString("HH:mm:ss.fff")}");
-        Debug.Log($"Bee {id} died");
+        //Debug.Log($"Bee {id} died");
     }
 
     public void BeeHit(int id, string spawnTime)
     {
         csv_string.AppendLine($"{probandId};{condition};{id}; 2; {spawnTime}; {DateTime.Now.ToString("HH:mm:ss.fff")}");
-        Debug.Log($"Bee {id} hit you");
+        //Debug.Log($"Bee {id} hit you");
     }
 
     public void SaveToFile()

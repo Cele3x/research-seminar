@@ -1,0 +1,3 @@
+probandId; condition; beeId; result; startTime; endTime
+1;2;0; 2; 19:06:32.613; 19:06:37.315
+1;2;1; 2; 19:06:37.383; 19:06:41.306

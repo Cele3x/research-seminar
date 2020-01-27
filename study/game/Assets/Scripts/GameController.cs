@@ -28,6 +28,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private  Transform[] _spawnPoints;
     [SerializeField] GameObject beePrefab;
     [SerializeField] GameObject ballonPrefab;
+    [SerializeField] GameObject flash;
 
     [SerializeField] float offsetSpawn; 
 
@@ -82,33 +83,54 @@ public class GameController : MonoBehaviour
         if (timeBetweenSpawns > 1.6f)
         {
             timeBetweenSpawns = timeBetweenSpawns * SpawnsDecayFactor;
-            Debug.Log(timeBetweenSpawns);
+            //Debug.Log(timeBetweenSpawns);
         }
 
     }
     IEnumerator beeSpawnerCoHo()
     {
         yield return new WaitForSeconds(timeBetweenSpawns);
-        beeSpawner();
-        StartCoroutine("beeSpawnerCoHo");
+        Debug.Log(_beeId);
+        if (_beeId < 100)
+        {
+            beeSpawner();
+            StartCoroutine("beeSpawnerCoHo");
+        }
+        else
+        {
+            Debug.Log("Ending Game.."); 
+        }
+      
 
     }
    
     void levelParser()
     {
-        string path = "Assets/Levelfiles/level_A.txt";
-        StreamReader reader = new StreamReader(path);
-        levelString = reader.ReadToEnd();
-        print(levelString);
-        reader.Close();
+
+        levelString = "32144212312341231241231234441231234124124141234123434321423123432423413412344322341234123412344312123433213213234123423412341414321234144412321313223213412341234432141234123412331234123414242131234323143124123412341234321442123123412312412312344412312341241241412341234343214231234324234134123443223412341234123443121234332132132341234234123414143212341444123213132232134123412344321412341234123312341234142421312343231431241234123412343214421231234123124123123444123123412412414123412343432142312343242341341234432234123412341234431212343321321323412342341234141432123414441232131322321341234123443214123412341233123412341424213123432314312412341234123432144212312341231241231234441231234124124141234123434321423123432423413412344322341234123412344312123433213213234123423412341414321234144412321313223213412341234432141234123412331234123414242131234323143124123412341234";
 
 
+
+    }
+
+    public void flashNow()
+    {
+
+        flash.SetActive(true);
+        StartCoroutine("deactivateFlash");
+
+    }
+
+    public IEnumerator deactivateFlash()
+    {
+        yield return new WaitForSeconds(0.2f);
+        flash.SetActive(false);
     }
 
     public void beeSpawner()
     {
         spawnBee(int.Parse(levelString[_currentSpawnIndex].ToString()));
-
+        Debug.Log(int.Parse(levelString[_currentSpawnIndex].ToString()));
     }
 
     public void spawnBee(int spawnIndex)
