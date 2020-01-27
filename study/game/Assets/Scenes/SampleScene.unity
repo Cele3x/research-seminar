@@ -44,7 +44,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -18252,8 +18252,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   path: 
-  condition: 0
-  probandId: 0
+  condition: 2
+  probandId: 1
 --- !u!4 &1838199536 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 5b74e216388116d4c82c4d0c8a53c0d3,

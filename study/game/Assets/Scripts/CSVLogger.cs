@@ -17,22 +17,20 @@ public class CSVLogger : MonoBehaviour
     {
         path = "ID"+ probandId + "_CON" + condition + "_" + DateTime.Now.ToString("dd.MM.yyyy-HH_mm_ss") + ".csv";
         csv_string = new StringBuilder();
+        csv_string.AppendLine($"probandId; condition; beeId; result; startTime; endTime");
+
     }
 
-    public void BeeSpawn(int id)
+    public void BeeDied(int id, string spawnTime)
     {
-        csv_string.AppendLine($"{id}; 1; {Time.timeSinceLevelLoad}");
+        csv_string.AppendLine($"{probandId};{condition};{id}; 1; {spawnTime}; {DateTime.Now.ToString("HH:mm:ss.fff")}");
+        Debug.Log($"Bee {id} died");
     }
 
-    public void BeeDeath(int id)
+    public void BeeHit(int id, string spawnTime)
     {
-// csv_string.AppendLine($"{id}, 2, {DateTime.Now.ToString("HH:mm:ss:fff")}");
-        csv_string.AppendLine($"{id}; 2; {Time.timeSinceLevelLoad}");
-    }
-
-    public void BeeHit(int id)
-    {
-        csv_string.AppendLine($"{id}; 3; {Time.timeSinceLevelLoad}");
+        csv_string.AppendLine($"{probandId};{condition};{id}; 2; {spawnTime}; {DateTime.Now.ToString("HH:mm:ss.fff")}");
+        Debug.Log($"Bee {id} hit you");
     }
 
     public void SaveToFile()
