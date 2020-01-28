@@ -15,7 +15,7 @@ public class BeeController : MonoBehaviour
     private AudioSource _audioSource;
     private float _distanceToTarget = Mathf.Infinity;
     private Boolean _isSuccessful;
-    private float initTime;
+    private string spawnTime;
 
     private CSVLogger _logger;
 
@@ -23,6 +23,9 @@ public class BeeController : MonoBehaviour
     private static readonly int Move = Animator.StringToHash("move");
     private static readonly int Idle = Animator.StringToHash("idle");
     private static readonly int Die = Animator.StringToHash("die");
+
+
+    [SerializeField] private GameObject redFlash; 
 
 
     void Start()
@@ -41,8 +44,7 @@ public class BeeController : MonoBehaviour
             _navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
-        initTime = Time.timeSinceLevelLoad;
-        _logger.BeeSpawn(id);
+        spawnTime = DateTime.Now.ToString("HH:mm:ss.fff");
     }
 
     void Update()
@@ -100,7 +102,7 @@ public class BeeController : MonoBehaviour
             _navMeshAgent.enabled = false;
         }
 
-        _logger.BeeDeath(id);
+        _logger.BeeHit(id, spawnTime);
     }
 
 
@@ -108,18 +110,20 @@ public class BeeController : MonoBehaviour
     {
         if (collision.other.gameObject.tag == "Hand")
         {
-            _logger.BeeDeath(id);
+            _logger.BeeDied(id, spawnTime);
             Destroy(this.gameObject);
         }
 
         if (collision.other.gameObject.tag == "Body")
         {
-            _logger.BeeHit(id);
+            _logger.BeeHit(id, spawnTime);
             Destroy(this.gameObject.GetComponent<Rigidbody>());
+            _gameController.flashNow();
             Destroy(this.gameObject, 0.5f);
             GetAway();
         }
     }
+
 
     public void OnTriggerEnter(Collider collision)
     {
