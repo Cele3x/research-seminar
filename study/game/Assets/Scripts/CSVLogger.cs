@@ -10,8 +10,9 @@ public class CSVLogger : MonoBehaviour
 {
     public string path;
     public StringBuilder csv_string;
-    public int condition;
     public int probandId;
+    public int condition;
+
 
     public void Start()
     {

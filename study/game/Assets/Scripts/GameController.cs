@@ -14,7 +14,7 @@ public class GameController : MonoBehaviour
 
     [HideInInspector] public int playerScore = 0;
     [HideInInspector] public int beeScore = 0;
-    [HideInInspector] public int playerHitCount = 0;
+    [SerializeField] public int playerHitCount = 0;
     [HideInInspector] public string levelString;
     public List<float> objectTimeAlive; 
 
@@ -80,7 +80,7 @@ public class GameController : MonoBehaviour
     {
         
         //Starts at 4sec intervall between spawns, ends at 0.92sec with a level runtime of 120sec
-        if (timeBetweenSpawns > 1.6f)
+        if (timeBetweenSpawns > 1.0f)
         {
             timeBetweenSpawns = timeBetweenSpawns * SpawnsDecayFactor;
             //Debug.Log(timeBetweenSpawns);
@@ -162,14 +162,19 @@ public class GameController : MonoBehaviour
 
         _beeId++;
 
-        if(_currentSpawnIndex >= _spawnPoints.Length)
-        {
-            _currentSpawnIndex = 0; 
-        }
-        else
-        {
-            _currentSpawnIndex = _currentSpawnIndex + 1;
-        }
+        /*       
+                if(_currentSpawnIndex >= _spawnPoints.Length)
+                {
+                    _currentSpawnIndex = 0; 
+                }
+                else
+                {
+                    _currentSpawnIndex = _currentSpawnIndex + 1;
+                }
+
+                */
+
+        _currentSpawnIndex = _currentSpawnIndex + 1;
 
         foreach (float item in objectTimeAlive)
         {
