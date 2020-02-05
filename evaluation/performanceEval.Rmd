@@ -3,22 +3,310 @@ title: "R Notebook"
 output: html_notebook
 ---
 ```{r}
+install.packages("stringr")
 install.packages("plyr")
-install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("reshape2")
+install.packages("tidyr")
+install.packages("lme4")
+install.packages("nlme")
+install.packages("lmerTest")
+install.packages("Hmisc")
+install.packages("gridExtra")
+install.packages("multcomp")
+install.packages("car")
+install.packages("tibble")
+install.packages("QuantPsyc")
+install.packages("e1071")
+install.packages("MASS")
+install.packages("EMCluster")
+install.packages("pvclust")
+install.packages("caret")
+install.packages("car")
+install.packages("cowplot")
+install.packages("lsr")
+install.packages("grid")
+install.packages("ggrepel")
+install.packages("gridExtra")
+install.packages("data.table")
+#install.packages("heplots",repos="http://R-Forge.R-project.org")
+install.packages("heplots")
+#install.packages("lsr")
+install.packages("wesanderson")
+install.packages("doBy")
+install.packages("devtools")
+install.packages("ggm")
+install.packages("heplots")
+install.packages("reshape2")
+install.packages("ggplot2")
+install.packages("MASS")
+install.packages("lsr")
+install.packages("Hmisc")
+install.packages("psych")
+install.packages("FactoMineR")
+install.packages("ez")
+install.packages("BayesFactor")
+install.packages("ggpmisc")
+install.packages("RMySQL")
+install.packages("readxl")
+install.packages("ARTool")
+install.packages("phia")
+install.packages("dendroTools")
+install.packages("reshape2")
+```
+
+```{r}
+library(readr)
+library(stringr)
 library(plyr)
+library(ggplot2)
+library(reshape2)
+library(tidyr)
+library(lme4)
+library(nlme)
+library(lmerTest)
+library(Hmisc)
+library(gridExtra)
+library(multcomp)
+library(car)
+library(tibble)
+library(QuantPsyc)
+library(e1071)
+library(MASS)
+library(EMCluster)
+library(pvclust)
+library(caret)
+library(car)
+library(cowplot)
+library(lsr)
+library(grid)
+library(ggrepel)
+library(gridExtra)
+library(data.table)
+#install.packages("heplots",repos="http://R-Forge.R-project.org")
+library(heplots)
+#install.packages("lsr")
+library(wesanderson)
+library(doBy)
+library(devtools)
+library(ggm)
+library(heplots)
+library(reshape2)
+library(ggplot2)
+library(MASS)
+library(lsr)
+library(Hmisc)
+library(psych)
+library(FactoMineR)
+library(ez)
+library(BayesFactor)
+library(ggpmisc)
+library(RMySQL)
+library(readxl)
+library(ARTool)
+library(phia)
+library(dendroTools)
+library(reshape2)
+```
+
+```{r}
+percent <- function(x, digits = 2, format = "f", ...) {
+  nums <- vapply(df, is.numeric, FUN.VALUE = logical(1))
+  
+  df[,nums] <- as.factor(paste0(100 * round(df[,nums], digits = digits), "%"))
+  (df)
+}
+
+round_df <- function(df, digits = 2) {
+  nums <- vapply(df, is.numeric, FUN.VALUE = logical(1))
+  
+  df[,nums] <- round(df[,nums], digits = digits)
+  
+  (df)
+}
+
+if(!require(tidyverse)) install.packages("tidyverse"); library(tidyverse) #useful package for clean code
+
+#helper function that returns ALL indices of matches of x in table instead of just the first one
+#we need this to get all rows containing the ID of incomplete cases.
+matchAll = function(x, table, nomatch=NA_integer_, incomparables=NULL) {
+  which(!is.na(match(table, x, nomatch, incomparables)))
+}
+
+complete.cases.within = function(data, dv, wid) {
+  incomplete = data %>% select(dv) %>% complete.cases() %>% !. #boolean vector containing incomplete rows
+  toRemove = data %>% select(wid) %>% filter(incomplete) %>% .[,1] %>% unique() #all IDs containing incomplete rows
+  positions = matchAll(toRemove, data[,wid])
+  return(if (length(positions)==0) data else data[-positions,]) #drop all rows matching toRemove IDs
+}
+         
+lm_eqn = function(m) {
+
+  l <- list(a = format(coef(m)[1], digits = 2),
+      b = format(abs(coef(m)[2]), digits = 2),
+      r2 = format(summary(m)$r.squared, digits = 3));
+
+  if (coef(m)[2] >= 0)  {
+    eq <- substitute(italic(y) == a + b %.% italic(x)*","~~italic(r)^2~"="~r2,l)
+  } else {
+    eq <- substitute(italic(y) == a - b %.% italic(x)*","~~italic(r)^2~"="~r2,l)    
+  }
+
+  as.character(as.expression(eq));                 
+}
 ```
 
 ```{r}
 
+setwd("D:/GitHub/research-seminar/data/questionnaires")
+
+questionnaireData <- read_csv("./Ipq.csv")
+
+colnames(questionnaireData) <- c("timestamp","probandId","condition","ipq1","ipq2","ipq3","ipq4","ipq5","ipq6","ipq7","ipq8","ipq9","ipq10","ipq11","ipq12","ipq13","ipq14","eq1","eq2","eq3","eq4","eq5","eq6","eq7","eq8","eq9","eq10","qual1","qual2")
+
+questionnaireData = questionnaireData[,-c(1,28,29)]
+questionnaireData$probandId <- as.integer(questionnaireData$probandId)
+questionnaireData$condition <- as.factor(questionnaireData$condition)
+head(questionnaireData)
+
+questionnaireDataReshape <- data.table::dcast(as.data.table(questionnaireData), probandId ~ condition, value.var = c("ipq1","ipq2","ipq3","ipq4","ipq5","ipq6","ipq7","ipq8","ipq9","ipq10","ipq11","ipq12","ipq13","ipq14","eq1","eq2","eq3","eq4","eq5","eq6","eq7","eq8","eq9","eq10"))
+
+head(questionnaireDataReshape)
+
+questionnaireDataReshape <- melt(questionnaireDataReshape, id.vars=c("probandId"))
+questionnaireDataReshape$Model <- as.factor(str_split_fixed(questionnaireDataReshape$variable, "_", 3)[,2])
+questionnaireDataReshape$Question <- as.factor(str_split_fixed(questionnaireDataReshape$variable, "_", 3)[,1])
+questionnaireDataReshape$variable <- NULL
+
+levels(questionnaireDataReshape$Question) <- c("ipq1","ipq2","ipq3","ipq4","ipq5","ipq6","ipq7","ipq8","ipq9","ipq10","ipq11","ipq12","ipq13","ipq14","eq1","eq2","eq3","eq4","eq5","eq6","eq7","eq8","eq9","eq10")
+
+means <- aggregate(value ~ Model + Question, questionnaireDataReshape, function(x) c(mean = mean(x), ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))     
+means <- do.call(data.frame, means)
+
+questionnaireDataReshape <- dcast(questionnaireDataReshape, probandId + Model ~ Question, value.var="value")
+
+cat("\n\nPERFORMANCE\n") 
+cat("\n\nIPQ1 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(ipq1 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nIPQ2 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(ipq2 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nIPQ3 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(ipq3 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nIPQ4 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(ipq4 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nIPQ5 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(ipq5 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nIPQ6 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(ipq6 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nIPQ7 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(ipq7 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nIPQ8 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(ipq8 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nIPQ9 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(ipq9 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nIPQ10 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(ipq10 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nIPQ11 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(ipq11 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nIPQ12 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(ipq12 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nIPQ13 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(ipq13 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nIPQ14 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(ipq14 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nVLO1 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(el1 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nVLO2 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(el2 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nVLO3 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(el3 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nVLO4 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(el4 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+
+res <- round_df(testInteractions(artlm(art(el4 ~ Model + (1|probandId), data=questionnaireDataReshape), "Model"), pairwise=c("Model"), adjustment="bonf") ,3)  
+res[res$'Pr(>Chisq)'<=0.05,]
+cat("\n\nVLO5 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(el5 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nVLO6 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(el6 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nVLO7 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(el7 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nVLO8 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(el8 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nVLO9 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(el9 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+cat("\n\nVLO10 ANOVA: ===========================================================================================\n")  
+round_df(anova(art(el10 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+
+
+                  
+ggplot(means, aes(x=Model,y=value.mean, fill=Model)) + 
+       scale_y_continuous(limits = c(0,8), breaks=seq(0,8,1) ,expand = c(0,-1)) +
+       geom_bar(stat = "identity", position = position_dodge(width = 0.8), width=0.75) +
+        geom_errorbar(aes(ymin=value.mean-value.ci, ymax=value.mean+value.ci, width=.1), position=position_dodge(0.8), width=0.2, size=0.3) +
+       facet_wrap(.~Question, nrow=2, scale="free") +
+       theme_minimal() +
+       ylab("rating") +
+       guides(fill = guide_legend(title = "Model")) +
+        scale_fill_manual(values = c("steelblue2","tomato1","gold2", "olivedrab3", "#9999CC","#CC6666")) +
+       theme(legend.position="bottom",
+               panel.background = element_rect( size=0.5, color="transparent", fill="gray98" ),
+               axis.title.x=element_blank()
+  ) + ggsave("plots.pdf", width=9, height=5, device=cairo_pdf)
+```
+
+```{r}
 setwd("D:/GitHub/research-seminar/data/logs")
 
 logs <- dir()
 
 dfLogs <- do.call(rbind,lapply(logs,read.csv, sep= ";"))
 
-count(dfLogs, c("probandId","condition", "result"))
+#plyr::count(dfLogs, c("probandId","condition", "result"))
+
+dfLogsResults <- dfLogs[dfLogs$result==1, ]
+dfLogsResultSet <- plyr::count(dfLogsResults, c("probandId","condition", "result"))
+dfLogsResultSet <- dfLogsResultSet[-c(3)]
+
+head(dfLogsResultSet)
+
+dfLogsResultSet$condition <- factor(dfLogsResultSet$condition)
+
+head(dfLogsResultSet)
+```
 
 
+```{r}
+round_df(anova(art(freq ~ condition + (1|probandId), data=dfLogsResultSet)))
+
+means <- aggregate(freq ~ condition, dfLogsResultSet, function (x) c(mean = mean(x), ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))
+means <- do.call(data.frame, means)
+means$freq.mean <- round(means$freq.mean, 3)
+means$condition <- c("0F","12F","24F","36F","48F","-12F")
+
+ggplot(means, aes(x=condition,y=freq.mean,fill=condition, label = freq.mean)) +
+  #scale_y_continuous(limits = c(70,100), breaks=seq(75,100,5)) +
+  coord_cartesian(ylim=c(50,95)) +
+    geom_bar(stat = "identity", position = position_dodge(width = 0.8), width=0.75) +
+      geom_text(aes(label=freq.mean), vjust=4) +
+        geom_errorbar(aes(ymin=freq.mean-freq.ci, ymax=freq.mean+freq.ci, width=.1), position=position_dodge(0.8), width=0.2, size=0.3) +
+     #  facet_wrap(.~Task+Question, nrow=2, scale="free") +
+       theme_minimal() +
+       ylab("Performance Count") +
+       guides(fill = guide_legend(title = "Condition")) +
+        scale_fill_manual(values = c("steelblue2","tomato1","gold2", "olivedrab3", "#9999CC","#CC6666")) +
+       theme(legend.position = "none",
+               panel.background = element_rect( size=0.5, color="transparent", fill="gray98" ),
+               axis.title.x=element_blank(),
+               axis.title.y=element_text(size = 16, face = "bold", vjust= 2)
+  ) + ggsave("performance.pdf", width=9, height=5, device=cairo_pdf)         
 
 ```
+```{r}
+round_df(anova(art(freq ~ condition * as.factor(condition) + (1|probandId), data=dfLogsResultSet)))
+round_df(anova(art(freq ~ condition + (1|probandId), data=dfLogsResultSet)))
+
+summary(lm(freq ~ condition +  (1|probandId), dfLogsResultSet))
+```
+
 

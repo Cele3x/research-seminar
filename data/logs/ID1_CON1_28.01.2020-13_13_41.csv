@@ -1,4 +1,4 @@
-probandId; condition; beeId; result; startTime; endTime
+probandId;condition;beeId;result;startTime;endTime
 1;1;0; 1; 13:13:41.741; 13:13:45.851
 1;1;1; 1; 13:13:45.795; 13:13:50.151
 1;1;2; 1; 13:13:49.603; 13:13:53.714
