@@ -29,9 +29,7 @@ install.packages("grid")
 install.packages("ggrepel")
 install.packages("gridExtra")
 install.packages("data.table")
-#install.packages("heplots",repos="http://R-Forge.R-project.org")
 install.packages("heplots")
-#install.packages("lsr")
 install.packages("wesanderson")
 install.packages("doBy")
 install.packages("devtools")
@@ -83,9 +81,7 @@ library(grid)
 library(ggrepel)
 library(gridExtra)
 library(data.table)
-#install.packages("heplots",repos="http://R-Forge.R-project.org")
 library(heplots)
-#install.packages("lsr")
 library(wesanderson)
 library(doBy)
 library(devtools)
@@ -167,11 +163,8 @@ colnames(questionnaireData) <- c("timestamp","probandId","condition","ipq1","ipq
 questionnaireData = questionnaireData[,-c(1,28,29)]
 questionnaireData$probandId <- as.integer(questionnaireData$probandId)
 questionnaireData$condition <- as.factor(questionnaireData$condition)
-head(questionnaireData)
 
 questionnaireDataReshape <- data.table::dcast(as.data.table(questionnaireData), probandId ~ condition, value.var = c("ipq1","ipq2","ipq3","ipq4","ipq5","ipq6","ipq7","ipq8","ipq9","ipq10","ipq11","ipq12","ipq13","ipq14","eq1","eq2","eq3","eq4","eq5","eq6","eq7","eq8","eq9","eq10"))
-
-head(questionnaireDataReshape)
 
 questionnaireDataReshape <- melt(questionnaireDataReshape, id.vars=c("probandId"))
 questionnaireDataReshape$Model <- as.factor(str_split_fixed(questionnaireDataReshape$variable, "_", 3)[,2])
@@ -185,29 +178,51 @@ means <- do.call(data.frame, means)
 
 questionnaireDataReshape <- dcast(questionnaireDataReshape, probandId + Model ~ Question, value.var="value")
 
+head(questionnaireDataReshape)
+
 cat("\n\nPERFORMANCE\n") 
 cat("\n\nIPQ1 ANOVA: ===========================================================================================\n")  
 round_df(anova(art(ipq1 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+
+res <- round_df(testInteractions(artlm(art(ipq1 ~ Model + (1|probandId), data=questionnaireDataReshape), "Model"), pairwise=c("Model"), adjustment="bonf") ,3)  
+res[res$'Pr(>Chisq)'<=0.05,]
+
 cat("\n\nIPQ2 ANOVA: ===========================================================================================\n")  
 round_df(anova(art(ipq2 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
 cat("\n\nIPQ3 ANOVA: ===========================================================================================\n")  
 round_df(anova(art(ipq3 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
 cat("\n\nIPQ4 ANOVA: ===========================================================================================\n")  
 round_df(anova(art(ipq4 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+
+res <- round_df(testInteractions(artlm(art(ipq4 ~ Model + (1|probandId), data=questionnaireDataReshape), "Model"), pairwise=c("Model"), adjustment="bonf") ,3)  
+res[res$'Pr(>Chisq)'<=0.05,]
+
 cat("\n\nIPQ5 ANOVA: ===========================================================================================\n")  
 round_df(anova(art(ipq5 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
 cat("\n\nIPQ6 ANOVA: ===========================================================================================\n")  
 round_df(anova(art(ipq6 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+
+res <- round_df(testInteractions(artlm(art(ipq6 ~ Model + (1|probandId), data=questionnaireDataReshape), "Model"), pairwise=c("Model"), adjustment="bonf") ,3)  
+res[res$'Pr(>Chisq)'<=0.05,]
+
 cat("\n\nIPQ7 ANOVA: ===========================================================================================\n")  
 round_df(anova(art(ipq7 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
 cat("\n\nIPQ8 ANOVA: ===========================================================================================\n")  
 round_df(anova(art(ipq8 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+
+res <- round_df(testInteractions(artlm(art(ipq8 ~ Model + (1|probandId), data=questionnaireDataReshape), "Model"), pairwise=c("Model"), adjustment="bonf") ,3)  
+res[res$'Pr(>Chisq)'<=0.05,]
+
 cat("\n\nIPQ9 ANOVA: ===========================================================================================\n")  
 round_df(anova(art(ipq9 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
 cat("\n\nIPQ10 ANOVA: ===========================================================================================\n")  
 round_df(anova(art(ipq10 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
 cat("\n\nIPQ11 ANOVA: ===========================================================================================\n")  
 round_df(anova(art(ipq11 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+
+res <- round_df(testInteractions(artlm(art(ipq11 ~ Model + (1|probandId), data=questionnaireDataReshape), "Model"), pairwise=c("Model"), adjustment="bonf") ,3)  
+res[res$'Pr(>Chisq)'<=0.05,]
+
 cat("\n\nIPQ12 ANOVA: ===========================================================================================\n")  
 round_df(anova(art(ipq12 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
 cat("\n\nIPQ13 ANOVA: ===========================================================================================\n")  
@@ -215,28 +230,28 @@ round_df(anova(art(ipq13 ~ Model + (1|probandId), data=questionnaireDataReshape)
 cat("\n\nIPQ14 ANOVA: ===========================================================================================\n")  
 round_df(anova(art(ipq14 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
 cat("\n\nVLO1 ANOVA: ===========================================================================================\n")  
-round_df(anova(art(el1 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+round_df(anova(art(eq1 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
 cat("\n\nVLO2 ANOVA: ===========================================================================================\n")  
-round_df(anova(art(el2 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+round_df(anova(art(eq2 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
 cat("\n\nVLO3 ANOVA: ===========================================================================================\n")  
-round_df(anova(art(el3 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+round_df(anova(art(eq3 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
 cat("\n\nVLO4 ANOVA: ===========================================================================================\n")  
-round_df(anova(art(el4 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+round_df(anova(art(eq4 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
 
-res <- round_df(testInteractions(artlm(art(el4 ~ Model + (1|probandId), data=questionnaireDataReshape), "Model"), pairwise=c("Model"), adjustment="bonf") ,3)  
+res <- round_df(testInteractions(artlm(art(eq4 ~ Model + (1|probandId), data=questionnaireDataReshape), "Model"), pairwise=c("Model"), adjustment="bonf") ,3)  
 res[res$'Pr(>Chisq)'<=0.05,]
 cat("\n\nVLO5 ANOVA: ===========================================================================================\n")  
-round_df(anova(art(el5 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+round_df(anova(art(eq5 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
 cat("\n\nVLO6 ANOVA: ===========================================================================================\n")  
-round_df(anova(art(el6 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+round_df(anova(art(eq6 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
 cat("\n\nVLO7 ANOVA: ===========================================================================================\n")  
-round_df(anova(art(el7 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+round_df(anova(art(eq7 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
 cat("\n\nVLO8 ANOVA: ===========================================================================================\n")  
-round_df(anova(art(el8 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+round_df(anova(art(eq8 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
 cat("\n\nVLO9 ANOVA: ===========================================================================================\n")  
-round_df(anova(art(el9 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+round_df(anova(art(eq9 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
 cat("\n\nVLO10 ANOVA: ===========================================================================================\n")  
-round_df(anova(art(el10 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
+round_df(anova(art(eq10 ~ Model + (1|probandId), data=questionnaireDataReshape)),3)
 
 
                   
@@ -262,13 +277,27 @@ logs <- dir()
 
 dfLogs <- do.call(rbind,lapply(logs,read.csv, sep= ";"))
 
+write.csv(dfLogs, "logsCombined.csv", row.names = FALSE)
+```
+
+
+```{r}
+setwd("D:/GitHub/research-seminar/data/logs")
+
+dfLogs2 <- read.csv("logsCombined.csv", header = TRUE, sep= ",")
+
 #plyr::count(dfLogs, c("probandId","condition", "result"))
 
 dfLogsResults <- dfLogs[dfLogs$result==1, ]
 dfLogsResultSet <- plyr::count(dfLogsResults, c("probandId","condition", "result"))
 dfLogsResultSet <- dfLogsResultSet[-c(3)]
 
-head(dfLogsResultSet)
+dfLogsResultSet$condition[dfLogsResultSet$condition==1] <- 0
+dfLogsResultSet$condition[dfLogsResultSet$condition==2] <- 12
+dfLogsResultSet$condition[dfLogsResultSet$condition==3] <- 24
+dfLogsResultSet$condition[dfLogsResultSet$condition==4] <- 36
+dfLogsResultSet$condition[dfLogsResultSet$condition==5] <- 48
+dfLogsResultSet$condition[dfLogsResultSet$condition==6] <- -12
 
 dfLogsResultSet$condition <- factor(dfLogsResultSet$condition)
 
@@ -282,7 +311,7 @@ round_df(anova(art(freq ~ condition + (1|probandId), data=dfLogsResultSet)))
 means <- aggregate(freq ~ condition, dfLogsResultSet, function (x) c(mean = mean(x), ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))
 means <- do.call(data.frame, means)
 means$freq.mean <- round(means$freq.mean, 3)
-means$condition <- c("0F","12F","24F","36F","48F","-12F")
+#means$condition <- c("0F","12F","24F","36F","48F","-12F")
 
 ggplot(means, aes(x=condition,y=freq.mean,fill=condition, label = freq.mean)) +
   #scale_y_continuous(limits = c(70,100), breaks=seq(75,100,5)) +
@@ -303,10 +332,14 @@ ggplot(means, aes(x=condition,y=freq.mean,fill=condition, label = freq.mean)) +
 
 ```
 ```{r}
-round_df(anova(art(freq ~ condition * as.factor(condition) + (1|probandId), data=dfLogsResultSet)))
-round_df(anova(art(freq ~ condition + (1|probandId), data=dfLogsResultSet)))
+dfLogsResultSet.ext <- mutate(dfLogsResultSet, seq = probandId%%6)
 
-summary(lm(freq ~ condition +  (1|probandId), dfLogsResultSet))
+round_df(anova(art(freq ~ condition * as.factor(seq) + (1|probandId), data=dfLogsResultSet.ext)))
+round_df(anova(art(freq ~ condition + (1|probandId), data=dfLogsResultSet.ext)))
+
+dfLogsResultSet.ext$condition <- as.numeric(dfLogsResultSet.ext$condition)
+
+summary(lm(freq ~ condition +  (1|probandId), dfLogsResultSet.ext))
 ```
 
 
