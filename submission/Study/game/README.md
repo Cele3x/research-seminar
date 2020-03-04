@@ -24,12 +24,12 @@ It should be configured on the "Client - OptiTrack" game object with the **Serve
 Before each individual condition and before the scene can be started, the **probandId** and the **condition** have to be specified on the **GameController** object for being able to associate results to the participant and a condition.
 
 Condition-IDs can be mapped to prediction models as follows:
-- 1: 0F
-- 2: 12F
-- 3: 24F
-- 4: 36F
-- 5: 48F
-- 6: -12F
+- 1: 0 frames prediction
+- 2: 12 frames prediction
+- 3: 24 frames prediction
+- 4: 36 frames prediction
+- 5: 48 frames prediction
+- 6: -12 frames prediction
 
 After each condition the participant completes the questionnaire outside the virtual environment on a laptop ([Google-Questionnaire](https://docs.google.com/forms/d/1y2iOJb1yi_whFSzbAYHKQp34-JEaJwyAfJjkTT3wq4U/)). The study master has to initialize the questionnaire with the participant and condition id beforehand.
 
