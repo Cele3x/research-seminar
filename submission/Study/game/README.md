@@ -6,7 +6,7 @@ This Unity application was developed for the user study for predicting body move
 
 At start the participant is located without any configuration in a large cage in a tropical environment. Wasps are closing in trying to sting the player's avatar. The participant can get used to its surroundings and is encouraged to slap the wasps as instructed beforehand before the actual study measurements begin.
 
-### Performance Task
+### Performance Measurements
 
 After the user had time to familiarize, the game is getting restarted. Now the game performance measurements with various prediction mechanisms are getting recorded.
 Wasp are engaging the player through the four openings of the cage trying to sting its target. The Player can kill a wasp by slapping it with its left or right hand while the player got attacked successfully by the wasp if reached its body. Either way the wasps disappears instantly. The number of incoming wasps increases over time to a total of 100 bees.
