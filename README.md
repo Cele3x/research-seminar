@@ -16,6 +16,4 @@ Text
 Text
 
 ## Docs 
-This folder comprises two subfolder with the following containment:
-- Paper: Final version of the scientific paper written during the project. 
-- Projekt Handbuch: This is a document which elabroates how to use the developed movement prediciton system. It, as well, explaines a bit more technical back ground compared to the presented paper above. Additonally it grants deeper insight in the developed and presented Latency Test Framework.
+This folder contains the final version of the scientific paper written during the project. 
