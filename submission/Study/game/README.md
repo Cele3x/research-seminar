@@ -41,5 +41,7 @@ The performance results are stored for each participant and each condition insid
 
 # Questionnaire Results
 The answers from the questionnaire are stored in Google Docs.
-The used questionnaire is can be found [here](https://docs.google.com/forms/d/1y2iOJb1yi_whFSzbAYHKQp34-JEaJwyAfJjkTT3wq4U/). 
+The used questionnaire can be found [here](https://docs.google.com/forms/d/1y2iOJb1yi_whFSzbAYHKQp34-JEaJwyAfJjkTT3wq4U/). 
 
+The original igroup presence questionnaire (IPQ) can be found [here](http://www.igroup.org/pq/ipq/index.php).
+The original avatar embodiement questionnaire (EQ) can be found [here](https://www.frontiersin.org/articles/10.3389/frobt.2018.00074/full).
