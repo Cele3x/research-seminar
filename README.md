@@ -38,7 +38,7 @@ This folder contains all data gathered during the evaluation study. It also cont
 - Demographics: Contains a list of the demographics of all study participants, as well as some information about whether they were wearing glasses or not. Additionally it contains information about previous experience in VR and sportiness of the participants.
 - Perfomance Data: Contains the measurements of the conducted Perfomance task. 
 - Questionnaire Data: Contains the gathered results of the asked questionnaire. 
-- Unity Project: Contains the used Unity 3D Scene used to evaluated the presented system and to collect questionnaire data as well as perfomance data. Instructions on how to use the application can be found here: [README](https://github.com/Cele3x/practical-seminar/tree/master/04-user-study/src/README.md)
+- Unity Project: Contains the used Unity 3D Scene used to evaluated the presented system and to collect questionnaire data as well as perfomance data. Instructions on how to use the application can be found here: [README](https://github.com/Cele3x/research-seminar/blob/master/submission/Study/game/README.md)
 
 ## Video
 The video stored in this folder visualizes scenes from an exemplary study conduct
