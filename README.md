@@ -17,17 +17,29 @@ Each subfolder will be described in the following, starting with __Docs__:
 This folder contains the final version of the scientific paper written during the project. 
 
 ## Images
-Text
+This folder contains all needed image for this repository, as well as all images needed for the paper.
 
 ## Interceptor Client
-Text
+This folder is used for the developed Intercepter Client and all its dependencies, its containment is structured as follows: 
+- GuiClient: Graphical user interface for intercepting stream data and changing prediction models.
+- CSVClient: Command line tool for reading and writing motive stream data to a CSV file. (First Draft)
 
 ## Neural Network
-Text
+This folder contains everything related to the used neural network, it is structured as shown in the following: 
+- Data-Handling: Contains all scripts needed to handle the data gathered in the data acquisiton study. 
+- Evaluation: Contains all scripts needed for evaluating the presented neural network. 
+- Models: Contains all trained models, even those not evaluated in the evaluation study. 
+- Training: Contains all scripts needed for training the presented neural networks. 
+
+Does NOT contain the virtual enviroment used. Please make sure you have python 3.7.X and the needed packages installed. 
 
 ## Study
-Text
+This folder contains all data gathered during the evaluation study. It also contains the measured results for the questionnaire and the performance task. It does not contain or discuss any results or findings, please see the submitted paper for findings, results and a conclusion. 
+- Demographics: Contains a list of the demographics of all study participants, as well as some information about whether they were wearing glasses or not. Additionally it contains information about previous experience in VR and sportiness of the participants.
+- Perfomance Data: Contains the measurements of the conducted Perfomance task. 
+- Questionnaire Data: Contains the gathered results of the asked questionnaire. 
+- Unity Project: Contains the used Unity 3D Scene used to evaluated the presented system and to collect questionnaire data as well as perfomance data. Instructions on how to use the application can be found here: [README](https://github.com/Cele3x/practical-seminar/tree/master/04-user-study/src/README.md)
 
 ## Video
-Text
+The video stored in this folder visualizes scenes from an exemplary study conduct
 
