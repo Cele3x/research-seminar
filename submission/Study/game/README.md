@@ -2,8 +2,6 @@
 
 This Unity application was developed for the user study for predicting body movements. The participant is virtually placed via OptiTracks motion capturing system and an HTC Vive as head mounted device in a cage in a tropical environment. Via external adjustments the motion captured body movements are getting intercepted, changed and projected on the participants virtual model based on different prediction values.
 
-The application can be subdivided into two main purposes:
-
 ### Body Visualization and Familiarization
 
 At start the participant is located without any configuration in a large cage in a tropical environment. Wasps are closing in trying to sting the player's avatar. The participant can get used to its surroundings and is encouraged to slap the wasps as instructed beforehand before the actual study measurements begin.
