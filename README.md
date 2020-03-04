@@ -1,4 +1,5 @@
 # Predicting Avatar Movement in Virtual Reality using Neural Networks
+![Starting Scene](https://github.com/Cele3x/research-seminar/blob/master/submission/Images/teaser.png)
 This repository was used for the project "Predicting Avatar Movement in Virtual Reality using Neural Networks" carried out as part of the course "Forschungsseminar" in the winter semester 2019/2020 at the University of Regensburg. 
 Furthermore, this repository will be used to submit the final product. 
 
