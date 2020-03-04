@@ -34,11 +34,11 @@ This folder contains everything related to the used neural network, it is struct
 Does NOT contain the virtual enviroment used. Please make sure you have python 3.7.X and the needed packages installed. 
 
 ## Study
-This folder contains all data gathered during the evaluation study. It also contains the measured results for the questionnaire and the performance task. It does not contain or discuss any results or findings, please see the submitted paper for findings, results and a conclusion. 
+This folder contains all data gathered during the study conduct. It does not contain or discuss any results or findings, please see the submitted paper for findings, results and a conclusion.
 - Demographics: Contains a list of the demographics of all study participants, as well as some information about whether they were wearing glasses or not. Additionally it contains information about previous experience in VR and sportiness of the participants.
-- Perfomance Data: Contains the measurements of the conducted Perfomance task. 
+- Game Perfomance Data: Contains the measurements of the game performance for each participant and condition. 
 - Questionnaire Data: Contains the gathered results of the asked questionnaire. 
-- Unity Project: Contains the used Unity 3D Scene used to evaluated the presented system and to collect questionnaire data as well as perfomance data. Instructions on how to use the application can be found here: [README](https://github.com/Cele3x/research-seminar/blob/master/submission/Study/game/README.md)
+- Game: Contains the Unity 3D game used to evaluate the prediction system and to collect perfomance data. Instructions on how to use the application can be found here: [README](https://github.com/Cele3x/research-seminar/blob/master/submission/Study/game/README.md)
 
 ## Video
 The video stored in this folder visualizes scenes from an exemplary study conduct
