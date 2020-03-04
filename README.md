@@ -4,16 +4,30 @@ This repository was used for the project "Predicting Avatar Movement in Virtual 
 Furthermore, this repository will be used to submit the final product. 
 
 For the actual submission only the folder __submission__ , found in the root directory of this repository, is relevant. The folder contains several subfolders, sorted alphabetically: 
-- [Folder#1](https://github.com/Cele3x/research-seminar/tree/master/submission/)
-- [Folder#2](https://github.com/Cele3x/research-seminar/tree/master/submission/)
+- [Docs](https://github.com/Cele3x/research-seminar/tree/master/submission/)
+- [Images](https://github.com/Cele3x/research-seminar/tree/master/submission/)
+- [Interceptor Client](https://github.com/Cele3x/research-seminar/tree/master/submission/)
+- [Neural Network](https://github.com/Cele3x/research-seminar/tree/master/submission/)
+- [Study](https://github.com/Cele3x/research-seminar/tree/master/submission/)
+- [Video](https://github.com/Cele3x/research-seminar/tree/master/submission/)
 
-Each subfolder will be described in the following, starting with __Folder#1__: 
-
-## Folder#1
-Text
-
-## Folder#2
-Text
+Each subfolder will be described in the following, starting with __Docs__: 
 
 ## Docs 
 This folder contains the final version of the scientific paper written during the project. 
+
+## Images
+Text
+
+## Interceptor Client
+Text
+
+## Neural Network
+Text
+
+## Study
+Text
+
+## Video
+Text
+
