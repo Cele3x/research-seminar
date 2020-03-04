@@ -40,5 +40,5 @@ The performance task results are stored for each participant and each condition 
 - 2: Wasp stung the player
 
 # Questionnaire Results
-The answer from the questionnaire are stored in Google Docs.
+The answers from the questionnaire are stored in Google Docs.
 
