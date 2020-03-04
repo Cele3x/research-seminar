@@ -35,7 +35,7 @@ After each condition the participant completes the questionnaire outside the vir
 
 # Performance Results
 
-The performance task results are stored for each participant and each condition inside the game's main folder as CSV file. The name of this file (e.g. "ID5_CON4_28.01.2020-16_37_39.csv") is composed as follows: `<Proband-ID>_<Condition-ID>_<DateTime-Stamp>`. For each wasp a new line like the following is appended to the CSV: `1;1;16;1;13:14:26.687;13:14:31.131` and can be read as `<Proband-ID>;<Condition-ID>;<Bee-ID>;<Result>;<Start-Time>;<End-Time>`. Start and End-Time time the appearing and disappearing of the wasp. Results have the following characteristics:
+The performance results are stored for each participant and each condition inside the game's main folder as CSV file. The name of this file (e.g. "ID5_CON4_28.01.2020-16_37_39.csv") is composed as follows: `<Proband-ID>_<Condition-ID>_<DateTime-Stamp>`. For each wasp a new line like the following is appended to the CSV: `1;1;16;1;13:14:26.687;13:14:31.131` and can be read as `<Proband-ID>;<Condition-ID>;<Bee-ID>;<Result>;<Start-Time>;<End-Time>`. Start and End-Time time the appearing and disappearing of the wasp. Results have the following characteristics:
 - 1: Player killed the wasp
 - 2: Wasp stung the player
 
