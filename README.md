@@ -41,5 +41,5 @@ This folder contains all data gathered during the study conduct. It does not con
 - Game: Contains the Unity 3D game used to evaluate the prediction system and to collect perfomance data. Instructions on how to use the application can be found here: [README](https://github.com/Cele3x/research-seminar/blob/master/submission/Study/game/README.md)
 
 ## Video
-The video stored in this folder visualizes scenes from an exemplary study conduct
+The video stored in this folder visualizes scenes from an exemplary study conduct.
 
