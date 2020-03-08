@@ -13,8 +13,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/NatNetClient.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="612">
-              <caret line="102" lean-forward="true" selection-start-line="102" selection-end-line="102" />
+            <state relative-caret-position="-739">
+              <caret line="340" column="78" lean-forward="true" selection-start-line="340" selection-start-column="78" selection-end-line="340" selection-end-column="78" />
               <folding>
                 <element signature="e#641#654#0" expanded="true" />
               </folding>
@@ -25,7 +25,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/clientGui.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
+            <state relative-caret-position="-561">
               <caret line="13" selection-start-line="13" selection-end-line="13" />
               <folding>
                 <element signature="e#0#46#0" expanded="true" />
@@ -38,8 +38,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>__createDataSocket</find>
-      <find>__dataThreadFunction</find>
       <find>trace</find>
       <find>__unpackMocapData</find>
       <find>redirSocket</find>
@@ -68,6 +66,8 @@
       <find>interceptionStatus</find>
       <find>bottomGroupBox</find>
       <find>modelNames</find>
+      <find>predict</find>
+      <find>.predict</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -104,8 +104,18 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="intercepter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="intercepter" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scope" />
-      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -262,9 +272,9 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="2576" height="1416" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.09889677" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.098524764" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -291,22 +301,22 @@
     <entry file="file://$USER_HOME$/Downloads/NatNet_SDK_3.1/NatNetSDK/Samples/PythonClient/PythonSample.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/NatNetClient.py">
+    <entry file="file://$PROJECT_DIR$/clientGui.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="102" lean-forward="true" selection-start-line="102" selection-end-line="102" />
+        <state relative-caret-position="-561">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
           <folding>
-            <element signature="e#641#654#0" expanded="true" />
+            <element signature="e#0#46#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/clientGui.py">
+    <entry file="file://$PROJECT_DIR$/NatNetClient.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        <state relative-caret-position="-739">
+          <caret line="340" column="78" lean-forward="true" selection-start-line="340" selection-start-column="78" selection-end-line="340" selection-end-column="78" />
           <folding>
-            <element signature="e#0#46#0" expanded="true" />
+            <element signature="e#641#654#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -98,6 +98,8 @@ ipq$condition[ipq$condition==6] <- -12
 ipq$condition <- factor(ipq$condition)
 ipq$probandId <- factor(ipq$probandId)
 
+ipq <- ipq[-c(1)]
+
 ipq$SP2 <- (8 - ipq$SP2)
 ipq$INV3 <- (8 - ipq$INV3)
 ipq$REAL1 <- (8 - ipq$REAL1)
@@ -108,7 +110,7 @@ ipq$REAL <- (ipq$REAL1 + ipq$REAL2+ ipq$REAL3 + ipq$REAL4)/4
 
 ipq$BOW <- (ipq$BOW1 + ipq$BOW2+ ipq$BOW3 + ipq$BOW4)/4
 ipq$AMC <- (ipq$AMC1 + ipq$AMC2+ ipq$AMC3)/3
-ipq$LOC <- (ipq$LOC1 + ipq$LOC1+ ipq$LOC1)/3
+ipq$LOC <- (ipq$LOC1 + ipq$LOC2+ ipq$LOC3)/3
                               
 ipq$IPQ_Score <- (ipq$SP + ipq$INV + ipq$REAL)/3 
 
@@ -138,9 +140,19 @@ summary(aov(REAL ~ condition + Error(probandId), data=ipq))
 friedman.test(BOW ~ condition | probandId, data = ipq)
 friedman.test(AMC ~ condition | probandId, data = ipq)
 friedman.test(LOC ~ condition | probandId, data = ipq)
+friedman.test(LOC1 ~ condition | probandId, data = ipq)
+friedman.test(LOC2 ~ condition | probandId, data = ipq)
+friedman.test(LOC3 ~ condition | probandId, data = ipq)
 pairwise.wilcox.test(ipq$LOC, ipq$condition, p.adjust.method = "bonf", paired = T)
+pairwise.wilcox.test(ipq$LOC1, ipq$condition, p.adjust.method = "bonf", paired = T)
 friedman.test(MOS1 ~ condition | probandId, data = ipq)
 friedman.test(MOS2 ~ condition | probandId, data = ipq)
+
+ipqMeans = aggregate(ipq, by = list(ipq$condition), FUN = function (x) (mean = mean(x)))
+ipqSD = aggregate(ipq, by = list(ipq$condition), FUN = function (x) (ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))
+
+ipqMeans[,-1] <-round(ipqMeans[,-1],1)
+ipqSD[,-1] <-round(ipqSD[,-1],1)
 
 means <- aggregate(IPQ_Score ~ condition, ipq, function (x) c(mean = mean(x), ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))
 means <- do.call(data.frame, means)  
@@ -190,7 +202,7 @@ meansTmp <- rbind(meansTmp, means)
 means <- aggregate(LOC ~ condition, ipq, function (x) c(mean = mean(x), ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))
 means <- do.call(data.frame, means)     
 colnames(means) <- c("condition","Mean","CI")
-means$item <- "Location"              
+means$item <- "Location Category"              
 meansTmp <- rbind(meansTmp, means)
                                       
 means <- aggregate(MOS1 ~ condition, ipq, function (x) c(mean = mean(x), ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))
@@ -203,7 +215,13 @@ means <- aggregate(MOS2 ~ condition, ipq, function (x) c(mean = mean(x), ci = qt
 means <- do.call(data.frame, means)  
 colnames(means) <- c("condition","Mean","CI")
 means$item <- "Motion Sickness 2"                 
-means <- rbind(meansTmp, means)                
+meansTmp <- rbind(meansTmp, means)
+
+means <- aggregate(LOC1 ~ condition, ipq, function (x) c(mean = mean(x), ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))
+means <- do.call(data.frame, means)  
+colnames(means) <- c("condition","Mean","CI")
+means$item <- "Location Question 1"                 
+means <- rbind(meansTmp, means)   
                    
 ggplot(means, aes(x=condition,y=Mean, label = Mean, color=item, group=item)) +
   geom_point(position=position_dodge(0.4))+
@@ -212,6 +230,8 @@ ggplot(means, aes(x=condition,y=Mean, label = Mean, color=item, group=item)) +
   theme_minimal() +
   ylab("Score") +
   ggsave("BO.pdf", width=9, height=5, device=cairo_pdf)
+
+help(aov)
 ```
 
 
