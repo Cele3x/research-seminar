@@ -9,7 +9,7 @@ For the actual submission only the folder __submission__ , found in the root dir
 - [Interceptor Client](https://github.com/Cele3x/research-seminar/tree/master/submission/Interceptor%20Client)
 - [Neural Network](https://github.com/Cele3x/research-seminar/tree/master/submission/Neural%20Network)
 - [Study](https://github.com/Cele3x/research-seminar/tree/master/submission/Study)
-- [Video](https://github.com/Cele3x/research-seminar/tree/master/submission/Video)
+- [Videos](https://github.com/Cele3x/research-seminar/tree/master/submission/Videos)
 
 Each subfolder will be described in the following, starting with __Docs__: 
 
