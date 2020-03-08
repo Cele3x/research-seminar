@@ -1,0 +1,238 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+install.packages("ARTool")
+install.packages("phia")
+install.packages("ggplot2")
+```
+
+```{r}
+library(ARTool)
+library(phia)
+library(ggplot2)
+```
+
+```{r}
+round_df <- function(df, digits = 2) {
+  nums <- vapply(df, is.numeric, FUN.VALUE = logical(1))
+  
+  df[,nums] <- round(df[,nums], digits = digits)
+  
+  (df)
+}
+```
+
+```{r}
+setwd("D:/GitHub/research-seminar/data/logs")
+
+data <- read.csv("logsCombined.csv", header = TRUE, sep= ",")
+
+data <- data[data$result==1, ]
+data <- plyr::count(data, c("probandId","condition", "result"))
+data <- data[-c(3)]
+
+data$condition[data$condition==1] <- 0
+data$condition[data$condition==2] <- 12
+data$condition[data$condition==3] <- 24
+data$condition[data$condition==4] <- 36
+data$condition[data$condition==5] <- 48
+data$condition[data$condition==6] <- -12
+
+data$condition <- factor(data$condition)
+data$probandId <- factor(data$probandId)
+
+tapply(data$freq, data$condition, shapiro.test)   
+hist(data$freq)
+
+#summary(aov(freq ~ condition + Error(probandId), data=data))
+friedman.test(freq ~ condition | probandId, data = data)
+#round_df(anova(art(freq ~ condition + (1|probandId), data=data)))
+
+pairwise.wilcox.test(data$freq, data$condition, p.adjust.method = "bonf", paired = T)
+```
+```{r}
+means <- aggregate(freq ~ condition, data, function (x) c(mean = mean(x), ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))
+means <- do.call(data.frame, means)
+means$freq.mean <- round(means$freq.mean, 3)
+means$condition <- c("-12F","0F","12F","24F","36F","48F")
+
+ggplot(means, aes(x=condition,y=freq.mean, label = freq.mean, group=1, fill= condition)) +
+  coord_cartesian(ylim=c(70,90)) +
+    geom_bar(stat = "identity", position = position_dodge(width = 0.8), width=0.75) +
+  geom_text(aes(label=freq.mean), vjust=-8) +
+                   geom_point()+
+  geom_line() +
+        geom_errorbar(aes(ymin=freq.mean-freq.ci, ymax=freq.mean+freq.ci, width=.1), position=position_dodge(0.8), width=0.2, size=0.3) +
+       theme_minimal() +
+       ylab("Performance Count") +
+       guides(fill = guide_legend(title = "Condition")) +
+        scale_fill_manual(values = c("steelblue2","tomato1","gold2", "olivedrab3", "#9999CC","#CC6666")) +
+   ggsave("performance.pdf", width=9, height=5, device=cairo_pdf)
+
+ggplot(means, aes(x=condition,y=freq.mean, label = freq.mean, group=1)) +
+  coord_cartesian(ylim=c(70,90)) +
+  geom_text(aes(label=freq.mean), vjust=-8) +
+                   geom_point()+
+  geom_line() +
+        geom_errorbar(aes(ymin=freq.mean-freq.ci, ymax=freq.mean+freq.ci, width=.1), position=position_dodge(0.8), width=0.2, size=0.3) +
+       theme_minimal() +
+       ylab("Performance Count") +
+   ggsave("performance.pdf", width=9, height=5, device=cairo_pdf)
+```
+```{r}
+setwd("D:/GitHub/research-seminar/data/questionnaires")
+
+ipq <- read.csv("Ipq.csv", header = TRUE, sep= ",")
+colnames(ipq) <- c("timestamp","probandId","condition","G1","SP1","SP2","SP3","SP4","SP5","INV1","INV2","INV3","INV4","REAL1","REAL2","REAL3","REAL4","BOW1","BOW2","BOW3","BOW4","AMC1","AMC2","AMC3","LOC1","LOC2","LOC3","MOS1","MOS2")
+
+ipq$condition[ipq$condition==1] <- 0
+ipq$condition[ipq$condition==2] <- 12
+ipq$condition[ipq$condition==3] <- 24
+ipq$condition[ipq$condition==4] <- 36
+ipq$condition[ipq$condition==5] <- 48
+ipq$condition[ipq$condition==6] <- -12
+
+ipq$condition <- factor(ipq$condition)
+ipq$probandId <- factor(ipq$probandId)
+
+ipq <- ipq[-c(1)]
+
+ipq$SP2 <- (8 - ipq$SP2)
+ipq$INV3 <- (8 - ipq$INV3)
+ipq$REAL1 <- (8 - ipq$REAL1)
+
+ipq$SP <- (ipq$SP1 + ipq$SP2 + ipq$SP3 + ipq$SP4+ ipq$SP5)/5
+ipq$INV <- (ipq$INV1 + ipq$INV2 + ipq$INV3 + ipq$INV4)/4
+ipq$REAL <- (ipq$REAL1 + ipq$REAL2+ ipq$REAL3 + ipq$REAL4)/4
+
+ipq$BOW <- (ipq$BOW1 + ipq$BOW2+ ipq$BOW3 + ipq$BOW4)/4
+ipq$AMC <- (ipq$AMC1 + ipq$AMC2+ ipq$AMC3)/3
+ipq$LOC <- (ipq$LOC1 + ipq$LOC2+ ipq$LOC3)/3
+                              
+ipq$IPQ_Score <- (ipq$SP + ipq$INV + ipq$REAL)/3 
+
+ipq$MOS1 <- as.numeric(ifelse(ipq$MOS1 == "No", 0, 1))
+ipq$MOS2 <- as.numeric(ifelse(ipq$MOS2 == "no", 0, 1))
+
+cat("IPQ normal distribution")
+tapply(ipq$IPQ_Score, ipq$condition, shapiro.test)   
+cat("SP normal distribution")
+tapply(ipq$SP, ipq$condition, shapiro.test)   
+cat("INV normal distribution")
+tapply(ipq$INV, ipq$condition, shapiro.test)   
+cat("REAL normal distribution")
+tapply(ipq$REAL, ipq$condition, shapiro.test)   
+cat("BOW normal distribution")
+tapply(ipq$BOW, ipq$condition, shapiro.test)   
+cat("AMC normal distribution")
+tapply(ipq$AMC, ipq$condition, shapiro.test)   
+cat("LOC normal distribution")
+tapply(ipq$LOC, ipq$condition, shapiro.test)   
+
+summary(aov(IPQ_Score ~ condition + Error(probandId), data=ipq))
+summary(aov(SP ~ condition + Error(probandId), data=ipq))
+summary(aov(INV ~ condition + Error(probandId), data=ipq))
+summary(aov(REAL ~ condition + Error(probandId), data=ipq)) 
+
+friedman.test(BOW ~ condition | probandId, data = ipq)
+friedman.test(AMC ~ condition | probandId, data = ipq)
+friedman.test(LOC ~ condition | probandId, data = ipq)
+friedman.test(LOC1 ~ condition | probandId, data = ipq)
+friedman.test(LOC2 ~ condition | probandId, data = ipq)
+friedman.test(LOC3 ~ condition | probandId, data = ipq)
+pairwise.wilcox.test(ipq$LOC, ipq$condition, p.adjust.method = "bonf", paired = T)
+pairwise.wilcox.test(ipq$LOC1, ipq$condition, p.adjust.method = "bonf", paired = T)
+friedman.test(MOS1 ~ condition | probandId, data = ipq)
+friedman.test(MOS2 ~ condition | probandId, data = ipq)
+
+ipqMeans = aggregate(ipq, by = list(ipq$condition), FUN = function (x) (mean = mean(x)))
+ipqSD = aggregate(ipq, by = list(ipq$condition), FUN = function (x) (ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))
+
+ipqMeans[,-1] <-round(ipqMeans[,-1],1)
+ipqSD[,-1] <-round(ipqSD[,-1],1)
+
+means <- aggregate(IPQ_Score ~ condition, ipq, function (x) c(mean = mean(x), ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))
+means <- do.call(data.frame, means)  
+colnames(means) <- c("condition","Mean","CI")
+means$item <- "IPQ Score"                 
+meansTmp <- means
+                   
+means <- aggregate(SP ~ condition, ipq, function (x) c(mean = mean(x), ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))
+means <- do.call(data.frame, means)       
+colnames(means) <- c("condition","Mean","CI")
+means$item <- "Spatial Presence (SP)"            
+meansTmp <- rbind(meansTmp, means)
+                   
+means <- aggregate(INV ~ condition, ipq, function (x) c(mean = mean(x), ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))
+means <- do.call(data.frame, means)     
+colnames(means) <- c("condition","Mean","CI")
+means$item <- "Involvement (INV)"              
+meansTmp <- rbind(meansTmp, means)
+                   
+means <- aggregate(REAL ~ condition, ipq, function (x) c(mean = mean(x), ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))
+means <- do.call(data.frame, means)  
+colnames(means) <- c("condition","Mean","CI")
+means$item <- "Realism (REAL)"                 
+means <- rbind(meansTmp, means)                
+                   
+ggplot(means, aes(x=condition,y=Mean, label = Mean, color=item, group=item)) +
+  geom_point(position=position_dodge(0.4))+
+  geom_line(position=position_dodge(0.4)) +
+  geom_errorbar(aes(ymin=Mean-CI, ymax=Mean+CI, width=.1), position=position_dodge(0.4), width=0.2, size=0.3) +
+  theme_minimal() +
+  ylab("Scores") +
+  ggsave("IPQ.pdf", width=9, height=5, device=cairo_pdf)
+```
+```{r}
+means <- aggregate(BOW ~ condition, ipq, function (x) c(mean = mean(x), ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))
+means <- do.call(data.frame, means)  
+colnames(means) <- c("condition","Mean","CI")
+means$item <- "Body Ownership"                 
+meansTmp <- means
+                   
+means <- aggregate(AMC ~ condition, ipq, function (x) c(mean = mean(x), ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))
+means <- do.call(data.frame, means)       
+colnames(means) <- c("condition","Mean","CI")
+means$item <- "Agency and Motor Control"            
+meansTmp <- rbind(meansTmp, means)
+                   
+means <- aggregate(LOC ~ condition, ipq, function (x) c(mean = mean(x), ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))
+means <- do.call(data.frame, means)     
+colnames(means) <- c("condition","Mean","CI")
+means$item <- "Location Category"              
+meansTmp <- rbind(meansTmp, means)
+                                      
+means <- aggregate(MOS1 ~ condition, ipq, function (x) c(mean = mean(x), ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))
+means <- do.call(data.frame, means)     
+colnames(means) <- c("condition","Mean","CI")
+means$item <- "Motion Sickness 1"            
+meansTmp <- rbind(meansTmp, means)
+                   
+means <- aggregate(MOS2 ~ condition, ipq, function (x) c(mean = mean(x), ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))
+means <- do.call(data.frame, means)  
+colnames(means) <- c("condition","Mean","CI")
+means$item <- "Motion Sickness 2"                 
+meansTmp <- rbind(meansTmp, means)
+
+means <- aggregate(LOC1 ~ condition, ipq, function (x) c(mean = mean(x), ci = qt(0.95,df=length(x)-1)*sd(x)/sqrt(length(x))))
+means <- do.call(data.frame, means)  
+colnames(means) <- c("condition","Mean","CI")
+means$item <- "Location Question 1"                 
+means <- rbind(meansTmp, means)   
+                   
+ggplot(means, aes(x=condition,y=Mean, label = Mean, color=item, group=item)) +
+  geom_point(position=position_dodge(0.4))+
+  geom_line(position=position_dodge(0.4)) +
+  geom_errorbar(aes(ymin=Mean-CI, ymax=Mean+CI, width=.1), position=position_dodge(0.4), width=0.2, size=0.3) +
+  theme_minimal() +
+  ylab("Score") +
+  ggsave("BO.pdf", width=9, height=5, device=cairo_pdf)
+
+```
+
+
+
+
