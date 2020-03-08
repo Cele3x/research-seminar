@@ -16,6 +16,9 @@ Each subfolder will be described in the following, starting with __Docs__:
 ## Docs 
 This folder contains the final version of the scientific paper written during the project. 
 
+## Evaluation
+This folder contains the Rmd and R-Notebook-HTML file of the evaluation process.
+
 ## Images
 This folder contains all needed image for this repository, as well as all images needed for the paper.
 
